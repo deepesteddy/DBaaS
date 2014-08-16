@@ -1,0 +1,154 @@
+[
+    {
+        "name": "sort_R",
+        "exec": {
+            "path": "file://python:python",
+			"env": {
+				"SEQ_COUNT": 1,
+				"KEY_COL_INDEX": 3
+			}
+        },
+        "file_list": [
+            {
+                "device": "stdin",
+                "path": "swift://./bigscanSequenceJoin_V2/sort_R.py"
+            },
+            {
+                "device": "input",
+                "path": "swift://./bigscanSequenceJoin_V2/natalityR*.csv"
+            },
+            {
+                "device": "stderr",
+                "path": "swift://./bigscanSequenceJoin_V2/natalityR*.err",
+                "content_type": "text/plain"
+            },
+            {
+                "device": "python"
+            }
+        ],
+        "connect": [
+            "sequence_R"
+        ]
+    },
+  	{
+        "name": "sort_S",
+        "exec": {
+            "path": "file://python:python",
+			"env": {
+				"SEQ_COUNT": 1,
+				"KEY_COL_INDEX": 3
+			}
+        },
+        "file_list": [
+            {
+                "device": "stdin",
+                "path": "swift://./bigscanSequenceJoin_V2/sort_S.py"
+            },
+            {
+                "device": "input",
+                "path": "swift://./bigscanSequenceJoin_V2/natalityS*.csv"
+            },
+            {
+                "device": "stderr",
+                "path": "swift://./bigscanSequenceJoin_V2/natalityS*.err",
+                "content_type": "text/plain"
+            },
+            {
+                "device": "python"
+            }
+        ],
+        "connect": [
+            "sequence_S"
+        ]
+    },
+    {
+        "name": "sequence_R",
+        "exec": {
+            "path": "file://python:python",
+			"env": {
+				"SEQ_COUNT": 1,
+				"KEY_COL_INDEX": 3
+			}
+        },
+		"count": 1,
+        "file_list": [
+            {
+                "device": "stdin",
+                "path": "swift://./bigscanSequenceJoin_V2/sequence_R.py"
+            },
+            {
+                "device": "stdout",
+				"mode": "pipe",
+				"min_size": 0
+            },
+			{
+                "device": "python"
+            },
+            {
+                "device": "stderr",
+                "path": "swift://./bigscanSequenceJoin_V2/sequence_R.err",
+                "content_type": "text/plain"
+            }
+        ],
+      	"connect": [
+            "join"
+        ]
+    },
+  	{
+        "name": "sequence_S",
+        "exec": {
+            "path": "file://python:python",
+			"env": {
+				"SEQ_COUNT": 1,
+				"KEY_COL_INDEX": 3
+			}
+        },
+		"count": 1,
+        "file_list": [
+            {
+                "device": "stdin",
+                "path": "swift://./bigscanSequenceJoin_V2/sequence_S.py"
+            },
+            {
+                "device": "stdout",
+              	"mode": "pipe",
+				"min_size": 0
+            },
+			{
+                "device": "python"
+            },
+            {
+                "device": "stderr",
+                "path": "swift://./bigscanSequenceJoin_V2/sequence_S.err",
+                "content_type": "text/plain"
+            }
+        ],
+      	"connect": [
+            "join"
+        ]
+    },
+  	{
+            "name":"join",
+            "exec": {
+            		"path": "file://python:python",
+					"env": {
+						"SEQ_COUNT": 1,
+						"KEY_COL_INDEX": 3
+					}
+        	},
+            "file_list":[
+                {	
+                  	"device":"stdin",
+                 	"path":"swift://./bigscanSequenceJoin_V2/join.py"
+                },
+                {	
+                  	"device":"stderr",
+                 	"path": "swift://./bigscanSequenceJoin_V2/join.err",
+                	"content_type": "text/plain"
+                },
+              	{
+                	"device": "python"
+            	}
+            ]
+    }
+]
